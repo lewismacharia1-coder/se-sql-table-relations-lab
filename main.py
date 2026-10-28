@@ -8,7 +8,7 @@ conn = sqlite3.connect('data.sqlite')
 # PART 1: Join and Filter
 # ==========================================
 
-# 1. Return the first and last names and the job titles for all employees in Boston.
+# 1. Boston employees
 df_boston = pd.read_sql(
     """
     SELECT e.firstName, e.lastName, e.jobTitle
@@ -19,7 +19,7 @@ df_boston = pd.read_sql(
     conn,
 )
 
-# 2. Are there any offices that have zero employees?
+# 2. Offices with zero employees
 df_zero_emp = pd.read_sql(
     """
     SELECT o.officeCode, o.city
@@ -35,7 +35,6 @@ df_zero_emp = pd.read_sql(
 # PART 2: Type of Join
 # ==========================================
 
-# 3. Return employees' first name, last name, city, and state. Order by first name, then last name.
 df_employee = pd.read_sql(
     """
     SELECT e.firstName, e.lastName, o.city, o.state
@@ -46,7 +45,6 @@ df_employee = pd.read_sql(
     conn,
 )
 
-# 4. Customer contact info and sales rep employee number for customers who haven't placed an order, sorted by last name.
 df_contacts = pd.read_sql(
     """
     SELECT c.contactFirstName, c.contactLastName, c.phone, c.salesRepEmployeeNumber
@@ -63,7 +61,6 @@ df_contacts = pd.read_sql(
 # PART 3: Built-In Function
 # ==========================================
 
-# 5. Customer contacts with payment amounts and dates, sorted descending by payment amount.
 df_payment = pd.read_sql(
     """
     SELECT c.contactFirstName, c.contactLastName, p.amount, p.paymentDate
@@ -79,7 +76,6 @@ df_payment = pd.read_sql(
 # PART 4: Joining and Grouping
 # ==========================================
 
-# 6. Employee number, first name, last name, and number of customers for employees whose customers have avg credit limit > 90k.
 df_credit = pd.read_sql(
     """
     SELECT e.employeeNumber, e.firstName, e.lastName, COUNT(c.customerNumber) AS n_customers
@@ -92,7 +88,6 @@ df_credit = pd.read_sql(
     conn,
 )
 
-# 7. Product name, count of orders (numorders), and total quantity ordered (totalunits), sorted by totalunits high to low.
 df_product_sold = pd.read_sql(
     """
     SELECT p.productName, COUNT(od.orderNumber) AS numorders, SUM(od.quantityOrdered) AS totalunits
@@ -109,7 +104,6 @@ df_product_sold = pd.read_sql(
 # PART 5: Multiple Joins
 # ==========================================
 
-# 8. Product name, code, and total number of unique customers (numpurchasers), sorted by highest purchasers.
 df_total_customers = pd.read_sql(
     """
     SELECT p.productName, p.productCode, COUNT(DISTINCT o.customerNumber) AS numpurchasers
@@ -122,7 +116,6 @@ df_total_customers = pd.read_sql(
     conn,
 )
 
-# 9. Count of customers (n_customers), office code, and city per office.
 df_customers = pd.read_sql(
     """
     SELECT COUNT(c.customerNumber) AS n_customers, o.officeCode, o.city
@@ -140,7 +133,6 @@ df_customers = pd.read_sql(
 # PART 6: Subquery
 # ==========================================
 
-# 10. Employee number, first name, last name, city, and office code for employees who sold products ordered by fewer than 20 customers.
 df_subquery = pd.read_sql(
     """
     SELECT DISTINCT e.employeeNumber, e.firstName, e.lastName, o.city, o.officeCode
@@ -161,5 +153,5 @@ df_subquery = pd.read_sql(
     conn,
 )
 
-# 11. Close the connection
+# Close connection
 conn.close()
