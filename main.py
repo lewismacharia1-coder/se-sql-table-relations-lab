@@ -127,7 +127,7 @@ df_customers = pd.read_sql(
 )
 
 # STEP 10
-# Replace None with your code
+place None with your code
 # Close the connection
 conn.close()
 
